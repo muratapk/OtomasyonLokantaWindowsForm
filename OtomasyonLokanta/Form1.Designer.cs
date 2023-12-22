@@ -170,6 +170,7 @@
             this.ekleToolStripMenuItem6.Name = "ekleToolStripMenuItem6";
             this.ekleToolStripMenuItem6.Size = new System.Drawing.Size(224, 26);
             this.ekleToolStripMenuItem6.Text = "Ekle";
+            this.ekleToolStripMenuItem6.Click += new System.EventHandler(this.ekleToolStripMenuItem6_Click);
             // 
             // Form1
             // 

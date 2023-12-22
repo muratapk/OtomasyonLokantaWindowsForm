@@ -89,6 +89,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LokantaModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="RollerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RollerForm.Designer.cs">
+      <DependentUpon>RollerForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Masalar.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="KategoteriForm.resx">
       <DependentUpon>KategoteriForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RollerForm.resx">
+      <DependentUpon>RollerForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Masalar.resx">
       <DependentUpon>Masalar.cs</DependentUpon>

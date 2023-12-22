@@ -35,5 +35,12 @@ namespace OtomasyonLokanta
             yeni.MdiParent = this;
             yeni.Show();
         }
+
+        private void ekleToolStripMenuItem6_Click(object sender, EventArgs e)
+        {
+            RollerForm yeni = new RollerForm();
+            yeni.MdiParent = this;
+            yeni.Show();
+        }
     }
 }
