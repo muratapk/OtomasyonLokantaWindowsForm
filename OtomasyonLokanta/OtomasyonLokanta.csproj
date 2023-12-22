@@ -68,6 +68,12 @@
     <Compile Include="Kategoriler.cs">
       <DependentUpon>LokantaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="KategoteriForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="KategoteriForm.Designer.cs">
+      <DependentUpon>KategoteriForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="LokantaModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -108,6 +114,9 @@
     </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="KategoteriForm.resx">
+      <DependentUpon>KategoteriForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Masalar.resx">
       <DependentUpon>Masalar.cs</DependentUpon>

@@ -28,5 +28,12 @@ namespace OtomasyonLokanta
         {
 
         }
+
+        private void ekleToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            KategoteriForm yeni= new KategoteriForm();  
+            yeni.MdiParent = this;
+            yeni.Show();
+        }
     }
 }
