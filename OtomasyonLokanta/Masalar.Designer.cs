@@ -96,6 +96,7 @@
             this.button3.TabIndex = 5;
             this.button3.Text = "Düzeltme";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button4
             // 
@@ -123,6 +124,7 @@
             this.textBox2.Name = "textBox2";
             this.textBox2.Size = new System.Drawing.Size(158, 22);
             this.textBox2.TabIndex = 8;
+            this.textBox2.Visible = false;
             // 
             // Masalar
             // 

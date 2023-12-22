@@ -21,13 +21,22 @@ namespace OtomasyonLokanta
         {
             try
             {
-                Masalars masabos = new Masalars();
-                masabos.Masa_Ad = textBox1.Text;
-                masabos.Masa_Durum = checkBox1.Checked;
-                baglan.Masalars.Add(masabos);
-                baglan.SaveChanges();
-                MessageBox.Show("Kaydınız Yapılmıştır");
-                doldur();
+                if (textBox2.Text == string.Empty)
+                {
+                    MessageBox.Show("Arama Yapmadınız veya Kayıt Seçmediniz");
+                }
+                else
+                {
+                    Masalars masabos = new Masalars();
+                    masabos.Masa_Ad = textBox1.Text;
+                    masabos.Masa_Durum = checkBox1.Checked;
+                    baglan.Masalars.Add(masabos);
+                    baglan.SaveChanges();
+                    MessageBox.Show("Kaydınız Yapılmıştır");
+                    doldur();
+                    temizle();
+                }
+               
             }
             catch (Exception ex)
             {
@@ -66,13 +75,40 @@ namespace OtomasyonLokanta
                 baglan.SaveChanges();
                 MessageBox.Show("Kaydınız Silimiştir");
                 doldur();
+                temizle();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                MessageBox.Show("Kaydınız Silinmiştir.");
+                MessageBox.Show("Hata Oluştu.", ex.Message);
             }
            
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int Id = Convert.ToInt16(textBox2.Text);
+                var bul = baglan.Masalars.Find(Id);
+                bul.Masa_Ad = textBox1.Text;
+                bul.Masa_Durum = checkBox1.Checked;
+                
+                baglan.SaveChanges();
+                MessageBox.Show("Kaydınız Kaydınız Güncelleştirimiştir");
+                doldur();
+                temizle();
+            }
+            catch (Exception ex)
+            {
+
+                MessageBox.Show("Hata Oluştu.",ex.Message);
+            }
+        }
+        void temizle()
+        {
+            textBox1.Text= string.Empty;
+            checkBox1.Checked = false;
         }
     }
 }
