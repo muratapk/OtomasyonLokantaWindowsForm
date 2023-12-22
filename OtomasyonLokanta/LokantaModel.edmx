@@ -1,0 +1,492 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="LokantaDbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__EFMigrationsHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adisyons">
+          <Key>
+            <PropertyRef Name="Adisyon_Id" />
+          </Key>
+          <Property Name="Adisyon_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Siparis_Id" Type="int" Nullable="false" />
+          <Property Name="Servis_Id" Type="int" />
+          <Property Name="Adet" Type="int" />
+        </EntityType>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="Kategori_Id" />
+          </Key>
+          <Property Name="Kategori_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Kategori_Ad" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Masalars">
+          <Key>
+            <PropertyRef Name="Masa_Id" />
+          </Key>
+          <Property Name="Masa_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Masa_Ad" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Masa_Durum" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Personellers">
+          <Key>
+            <PropertyRef Name="Personel_Id" />
+          </Key>
+          <Property Name="Personel_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AdSoyad" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Masa_Id" Type="int" Nullable="false" />
+          <Property Name="Rol_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rollers">
+          <Key>
+            <PropertyRef Name="Rol_Id" />
+          </Key>
+          <Property Name="Rol_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Rol_Ad" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Servislers">
+          <Key>
+            <PropertyRef Name="Servis_Id" />
+          </Key>
+          <Property Name="Servis_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Servis_Ad" Type="nvarchar(max)" />
+          <Property Name="Kategori_Id" Type="int" Nullable="false" />
+          <Property Name="Fiyat" Type="float" />
+          <Property Name="Servis_Image" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Siparislers">
+          <Key>
+            <PropertyRef Name="Siparis_Id" />
+          </Key>
+          <Property Name="Siparis_Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Masa_Id" Type="int" Nullable="false" />
+          <Property Name="Acilis" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="Kapanis" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Adisyons_Servislers_Servis_Id">
+          <End Role="Servislers" Type="Self.Servislers" Multiplicity="0..1" />
+          <End Role="Adisyons" Type="Self.Adisyons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servislers">
+              <PropertyRef Name="Servis_Id" />
+            </Principal>
+            <Dependent Role="Adisyons">
+              <PropertyRef Name="Servis_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adisyons_Siparislers_Siparis_Id">
+          <End Role="Siparislers" Type="Self.Siparislers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Adisyons" Type="Self.Adisyons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparislers">
+              <PropertyRef Name="Siparis_Id" />
+            </Principal>
+            <Dependent Role="Adisyons">
+              <PropertyRef Name="Siparis_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personellers_Masalars_Masa_Id">
+          <End Role="Masalars" Type="Self.Masalars" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Personellers" Type="Self.Personellers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Masalars">
+              <PropertyRef Name="Masa_Id" />
+            </Principal>
+            <Dependent Role="Personellers">
+              <PropertyRef Name="Masa_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personellers_Rollers_Rol_Id">
+          <End Role="Rollers" Type="Self.Rollers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Personellers" Type="Self.Personellers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rollers">
+              <PropertyRef Name="Rol_Id" />
+            </Principal>
+            <Dependent Role="Personellers">
+              <PropertyRef Name="Rol_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Servislers_Kategoriler_Kategori_Id">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Servislers" Type="Self.Servislers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="Kategori_Id" />
+            </Principal>
+            <Dependent Role="Servislers">
+              <PropertyRef Name="Kategori_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparislers_Masalars_Masa_Id">
+          <End Role="Masalars" Type="Self.Masalars" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Siparislers" Type="Self.Siparislers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Masalars">
+              <PropertyRef Name="Masa_Id" />
+            </Principal>
+            <Dependent Role="Siparislers">
+              <PropertyRef Name="Masa_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LokantaDbModelStoreContainer">
+          <EntitySet Name="__EFMigrationsHistory" EntityType="Self.__EFMigrationsHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Adisyons" EntityType="Self.Adisyons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Masalars" EntityType="Self.Masalars" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Personellers" EntityType="Self.Personellers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rollers" EntityType="Self.Rollers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Servislers" EntityType="Self.Servislers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Siparislers" EntityType="Self.Siparislers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Adisyons_Servislers_Servis_Id" Association="Self.FK_Adisyons_Servislers_Servis_Id">
+            <End Role="Servislers" EntitySet="Servislers" />
+            <End Role="Adisyons" EntitySet="Adisyons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adisyons_Siparislers_Siparis_Id" Association="Self.FK_Adisyons_Siparislers_Siparis_Id">
+            <End Role="Siparislers" EntitySet="Siparislers" />
+            <End Role="Adisyons" EntitySet="Adisyons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personellers_Masalars_Masa_Id" Association="Self.FK_Personellers_Masalars_Masa_Id">
+            <End Role="Masalars" EntitySet="Masalars" />
+            <End Role="Personellers" EntitySet="Personellers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personellers_Rollers_Rol_Id" Association="Self.FK_Personellers_Rollers_Rol_Id">
+            <End Role="Rollers" EntitySet="Rollers" />
+            <End Role="Personellers" EntitySet="Personellers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servislers_Kategoriler_Kategori_Id" Association="Self.FK_Servislers_Kategoriler_Kategori_Id">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Servislers" EntitySet="Servislers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparislers_Masalars_Masa_Id" Association="Self.FK_Siparislers_Masalars_Masa_Id">
+            <End Role="Masalars" EntitySet="Masalars" />
+            <End Role="Siparislers" EntitySet="Siparislers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="LokantaDbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__EFMigrationsHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Adisyons">
+          <Key>
+            <PropertyRef Name="Adisyon_Id" />
+          </Key>
+          <Property Name="Adisyon_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Siparis_Id" Type="Int32" Nullable="false" />
+          <Property Name="Servis_Id" Type="Int32" />
+          <Property Name="Adet" Type="Int32" />
+          <NavigationProperty Name="Servislers" Relationship="Self.FK_Adisyons_Servislers_Servis_Id" FromRole="Adisyons" ToRole="Servislers" />
+          <NavigationProperty Name="Siparislers" Relationship="Self.FK_Adisyons_Siparislers_Siparis_Id" FromRole="Adisyons" ToRole="Siparislers" />
+        </EntityType>
+        <EntityType Name="Kategoriler">
+          <Key>
+            <PropertyRef Name="Kategori_Id" />
+          </Key>
+          <Property Name="Kategori_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Kategori_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Servislers" Relationship="Self.FK_Servislers_Kategoriler_Kategori_Id" FromRole="Kategoriler" ToRole="Servislers" />
+        </EntityType>
+        <EntityType Name="Masalars">
+          <Key>
+            <PropertyRef Name="Masa_Id" />
+          </Key>
+          <Property Name="Masa_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Masa_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Masa_Durum" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Personellers" Relationship="Self.FK_Personellers_Masalars_Masa_Id" FromRole="Masalars" ToRole="Personellers" />
+          <NavigationProperty Name="Siparislers" Relationship="Self.FK_Siparislers_Masalars_Masa_Id" FromRole="Masalars" ToRole="Siparislers" />
+        </EntityType>
+        <EntityType Name="Personellers">
+          <Key>
+            <PropertyRef Name="Personel_Id" />
+          </Key>
+          <Property Name="Personel_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AdSoyad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Masa_Id" Type="Int32" Nullable="false" />
+          <Property Name="Rol_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Masalars" Relationship="Self.FK_Personellers_Masalars_Masa_Id" FromRole="Personellers" ToRole="Masalars" />
+          <NavigationProperty Name="Rollers" Relationship="Self.FK_Personellers_Rollers_Rol_Id" FromRole="Personellers" ToRole="Rollers" />
+        </EntityType>
+        <EntityType Name="Rollers">
+          <Key>
+            <PropertyRef Name="Rol_Id" />
+          </Key>
+          <Property Name="Rol_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Rol_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Personellers" Relationship="Self.FK_Personellers_Rollers_Rol_Id" FromRole="Rollers" ToRole="Personellers" />
+        </EntityType>
+        <EntityType Name="Servislers">
+          <Key>
+            <PropertyRef Name="Servis_Id" />
+          </Key>
+          <Property Name="Servis_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Servis_Ad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Kategori_Id" Type="Int32" Nullable="false" />
+          <Property Name="Fiyat" Type="Double" />
+          <Property Name="Servis_Image" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Adisyons" Relationship="Self.FK_Adisyons_Servislers_Servis_Id" FromRole="Servislers" ToRole="Adisyons" />
+          <NavigationProperty Name="Kategoriler" Relationship="Self.FK_Servislers_Kategoriler_Kategori_Id" FromRole="Servislers" ToRole="Kategoriler" />
+        </EntityType>
+        <EntityType Name="Siparislers">
+          <Key>
+            <PropertyRef Name="Siparis_Id" />
+          </Key>
+          <Property Name="Siparis_Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Masa_Id" Type="Int32" Nullable="false" />
+          <Property Name="Acilis" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Kapanis" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Adisyons" Relationship="Self.FK_Adisyons_Siparislers_Siparis_Id" FromRole="Siparislers" ToRole="Adisyons" />
+          <NavigationProperty Name="Masalars" Relationship="Self.FK_Siparislers_Masalars_Masa_Id" FromRole="Siparislers" ToRole="Masalars" />
+        </EntityType>
+        <Association Name="FK_Adisyons_Servislers_Servis_Id">
+          <End Role="Servislers" Type="Self.Servislers" Multiplicity="0..1" />
+          <End Role="Adisyons" Type="Self.Adisyons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Servislers">
+              <PropertyRef Name="Servis_Id" />
+            </Principal>
+            <Dependent Role="Adisyons">
+              <PropertyRef Name="Servis_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Adisyons_Siparislers_Siparis_Id">
+          <End Role="Siparislers" Type="Self.Siparislers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Adisyons" Type="Self.Adisyons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Siparislers">
+              <PropertyRef Name="Siparis_Id" />
+            </Principal>
+            <Dependent Role="Adisyons">
+              <PropertyRef Name="Siparis_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Servislers_Kategoriler_Kategori_Id">
+          <End Role="Kategoriler" Type="Self.Kategoriler" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Servislers" Type="Self.Servislers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kategoriler">
+              <PropertyRef Name="Kategori_Id" />
+            </Principal>
+            <Dependent Role="Servislers">
+              <PropertyRef Name="Kategori_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personellers_Masalars_Masa_Id">
+          <End Role="Masalars" Type="Self.Masalars" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Personellers" Type="Self.Personellers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Masalars">
+              <PropertyRef Name="Masa_Id" />
+            </Principal>
+            <Dependent Role="Personellers">
+              <PropertyRef Name="Masa_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Siparislers_Masalars_Masa_Id">
+          <End Role="Masalars" Type="Self.Masalars" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Siparislers" Type="Self.Siparislers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Masalars">
+              <PropertyRef Name="Masa_Id" />
+            </Principal>
+            <Dependent Role="Siparislers">
+              <PropertyRef Name="Masa_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Personellers_Rollers_Rol_Id">
+          <End Role="Rollers" Type="Self.Rollers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Personellers" Type="Self.Personellers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rollers">
+              <PropertyRef Name="Rol_Id" />
+            </Principal>
+            <Dependent Role="Personellers">
+              <PropertyRef Name="Rol_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="LokantaDbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__EFMigrationsHistory" EntityType="Self.C__EFMigrationsHistory" />
+          <EntitySet Name="Adisyons" EntityType="Self.Adisyons" />
+          <EntitySet Name="Kategoriler" EntityType="Self.Kategoriler" />
+          <EntitySet Name="Masalars" EntityType="Self.Masalars" />
+          <EntitySet Name="Personellers" EntityType="Self.Personellers" />
+          <EntitySet Name="Rollers" EntityType="Self.Rollers" />
+          <EntitySet Name="Servislers" EntityType="Self.Servislers" />
+          <EntitySet Name="Siparislers" EntityType="Self.Siparislers" />
+          <AssociationSet Name="FK_Adisyons_Servislers_Servis_Id" Association="Self.FK_Adisyons_Servislers_Servis_Id">
+            <End Role="Servislers" EntitySet="Servislers" />
+            <End Role="Adisyons" EntitySet="Adisyons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Adisyons_Siparislers_Siparis_Id" Association="Self.FK_Adisyons_Siparislers_Siparis_Id">
+            <End Role="Siparislers" EntitySet="Siparislers" />
+            <End Role="Adisyons" EntitySet="Adisyons" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Servislers_Kategoriler_Kategori_Id" Association="Self.FK_Servislers_Kategoriler_Kategori_Id">
+            <End Role="Kategoriler" EntitySet="Kategoriler" />
+            <End Role="Servislers" EntitySet="Servislers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personellers_Masalars_Masa_Id" Association="Self.FK_Personellers_Masalars_Masa_Id">
+            <End Role="Masalars" EntitySet="Masalars" />
+            <End Role="Personellers" EntitySet="Personellers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Siparislers_Masalars_Masa_Id" Association="Self.FK_Siparislers_Masalars_Masa_Id">
+            <End Role="Masalars" EntitySet="Masalars" />
+            <End Role="Siparislers" EntitySet="Siparislers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Personellers_Rollers_Rol_Id" Association="Self.FK_Personellers_Rollers_Rol_Id">
+            <End Role="Rollers" EntitySet="Rollers" />
+            <End Role="Personellers" EntitySet="Personellers" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="LokantaDbModelStoreContainer" CdmEntityContainer="LokantaDbEntities">
+          <EntitySetMapping Name="C__EFMigrationsHistory">
+            <EntityTypeMapping TypeName="LokantaDbModel.C__EFMigrationsHistory">
+              <MappingFragment StoreEntitySet="__EFMigrationsHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Adisyons">
+            <EntityTypeMapping TypeName="LokantaDbModel.Adisyons">
+              <MappingFragment StoreEntitySet="Adisyons">
+                <ScalarProperty Name="Adisyon_Id" ColumnName="Adisyon_Id" />
+                <ScalarProperty Name="Siparis_Id" ColumnName="Siparis_Id" />
+                <ScalarProperty Name="Servis_Id" ColumnName="Servis_Id" />
+                <ScalarProperty Name="Adet" ColumnName="Adet" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Kategoriler">
+            <EntityTypeMapping TypeName="LokantaDbModel.Kategoriler">
+              <MappingFragment StoreEntitySet="Kategoriler">
+                <ScalarProperty Name="Kategori_Id" ColumnName="Kategori_Id" />
+                <ScalarProperty Name="Kategori_Ad" ColumnName="Kategori_Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Masalars">
+            <EntityTypeMapping TypeName="LokantaDbModel.Masalars">
+              <MappingFragment StoreEntitySet="Masalars">
+                <ScalarProperty Name="Masa_Id" ColumnName="Masa_Id" />
+                <ScalarProperty Name="Masa_Ad" ColumnName="Masa_Ad" />
+                <ScalarProperty Name="Masa_Durum" ColumnName="Masa_Durum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Personellers">
+            <EntityTypeMapping TypeName="LokantaDbModel.Personellers">
+              <MappingFragment StoreEntitySet="Personellers">
+                <ScalarProperty Name="Personel_Id" ColumnName="Personel_Id" />
+                <ScalarProperty Name="AdSoyad" ColumnName="AdSoyad" />
+                <ScalarProperty Name="Masa_Id" ColumnName="Masa_Id" />
+                <ScalarProperty Name="Rol_Id" ColumnName="Rol_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rollers">
+            <EntityTypeMapping TypeName="LokantaDbModel.Rollers">
+              <MappingFragment StoreEntitySet="Rollers">
+                <ScalarProperty Name="Rol_Id" ColumnName="Rol_Id" />
+                <ScalarProperty Name="Rol_Ad" ColumnName="Rol_Ad" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Servislers">
+            <EntityTypeMapping TypeName="LokantaDbModel.Servislers">
+              <MappingFragment StoreEntitySet="Servislers">
+                <ScalarProperty Name="Servis_Id" ColumnName="Servis_Id" />
+                <ScalarProperty Name="Servis_Ad" ColumnName="Servis_Ad" />
+                <ScalarProperty Name="Kategori_Id" ColumnName="Kategori_Id" />
+                <ScalarProperty Name="Fiyat" ColumnName="Fiyat" />
+                <ScalarProperty Name="Servis_Image" ColumnName="Servis_Image" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Siparislers">
+            <EntityTypeMapping TypeName="LokantaDbModel.Siparislers">
+              <MappingFragment StoreEntitySet="Siparislers">
+                <ScalarProperty Name="Siparis_Id" ColumnName="Siparis_Id" />
+                <ScalarProperty Name="Masa_Id" ColumnName="Masa_Id" />
+                <ScalarProperty Name="Acilis" ColumnName="Acilis" />
+                <ScalarProperty Name="Kapanis" ColumnName="Kapanis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
