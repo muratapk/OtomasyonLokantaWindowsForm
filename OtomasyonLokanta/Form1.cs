@@ -16,5 +16,17 @@ namespace OtomasyonLokanta
         {
             InitializeComponent();
         }
+
+        private void ekleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Masalar yeni=new Masalar();
+            yeni.MdiParent = this;
+            yeni.Show();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

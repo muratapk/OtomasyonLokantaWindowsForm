@@ -23,7 +23,7 @@ namespace OtomasyonLokanta
             {
                 if (textBox2.Text == string.Empty)
                 {
-                    MessageBox.Show("Arama Yapmadınız veya Kayıt Seçmediniz");
+                    MessageBox.Show("Arama Yapmadınız veya Tablodan Kayıt Seçmediniz");
                 }
                 else
                 {
@@ -55,6 +55,7 @@ namespace OtomasyonLokanta
         private void Masalar_Load(object sender, EventArgs e)
         {
             doldur();
+            groupBox1.Visible = false;
         }
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -69,13 +70,25 @@ namespace OtomasyonLokanta
         {
             try
             {
-                int Id = Convert.ToInt16(textBox2.Text);
-                var bul = baglan.Masalars.Find(Id);
-                baglan.Masalars.Remove(bul);
-                baglan.SaveChanges();
-                MessageBox.Show("Kaydınız Silimiştir");
-                doldur();
-                temizle();
+                if (textBox2.Text == string.Empty)
+                {
+                    MessageBox.Show("Arama Yapmadınız veya Tablodan Kayıt Seçmediniz");
+                }
+                else
+                {
+                    DialogResult cevap=MessageBox.Show("Bu Kaydı Silmek İstiyor musunuz?","Dikkat Kayıt Silme",MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                    if (cevap == DialogResult.Yes)
+                    {
+                        int Id = Convert.ToInt16(textBox2.Text);
+                        var bul = baglan.Masalars.Find(Id);
+                        baglan.Masalars.Remove(bul);
+                        baglan.SaveChanges();
+                        MessageBox.Show("Kaydınız Silimiştir");
+                        doldur();
+                        temizle();
+                    }
+                    
+                }
             }
             catch (Exception ex)
             {
@@ -89,15 +102,22 @@ namespace OtomasyonLokanta
         {
             try
             {
-                int Id = Convert.ToInt16(textBox2.Text);
-                var bul = baglan.Masalars.Find(Id);
-                bul.Masa_Ad = textBox1.Text;
-                bul.Masa_Durum = checkBox1.Checked;
-                
-                baglan.SaveChanges();
-                MessageBox.Show("Kaydınız Kaydınız Güncelleştirimiştir");
-                doldur();
-                temizle();
+                if (textBox2.Text == string.Empty)
+                {
+                    MessageBox.Show("Arama Yapmadınız veya Tablodan Kayıt Seçmediniz");
+                }
+                else
+                {
+                    int Id = Convert.ToInt16(textBox2.Text);
+                    var bul = baglan.Masalars.Find(Id);
+                    bul.Masa_Ad = textBox1.Text;
+                    bul.Masa_Durum = checkBox1.Checked;
+
+                    baglan.SaveChanges();
+                    MessageBox.Show("Kaydınız Kaydınız Güncelleştirimiştir");
+                    doldur();
+                    temizle();
+                }
             }
             catch (Exception ex)
             {
@@ -109,6 +129,19 @@ namespace OtomasyonLokanta
         {
             textBox1.Text= string.Empty;
             checkBox1.Checked = false;
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string ara = textBox3.Text;
+            var sonuc=baglan.Masalars.Where(x=>x.Masa_Ad.Contains(ara)).ToList();
+            dataGridView1.DataSource = sonuc;
+            
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            groupBox1.Visible = true;
         }
     }
 }
